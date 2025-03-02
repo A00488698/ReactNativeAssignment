@@ -2,16 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { addLocation, getLocations } from '../database';
+import { useFocusEffect } from '@react-navigation/native';
 
 const SearchWeatherScreen: React.FC = () => {
     const [city, setCity] = useState<string>('');
     const [weather, setWeather] = useState<{ temperature: number; latitude: number; longitude: number } | null>(null);
     const [savedLocations, setSavedLocations] = useState<{ id: number; cityName: string }[]>([]);
-    const [canSave, setCanSave] = useState(true); // 控制收藏按钮状态
+    const [canSave, setCanSave] = useState(true);
 
     useEffect(() => {
         fetchSavedLocations();
     }, []);
+
+    // 监听页面焦点变化，确保每次进入时都刷新收藏数据
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchSavedLocations();
+        }, [])
+    );
 
     const fetchSavedLocations = async () => {
         const locations = await getLocations();
@@ -69,7 +77,6 @@ const SearchWeatherScreen: React.FC = () => {
                 onChangeText={(text) => {
                     setCity(text);
                     setWeather(null); // 清空之前的天气信息
-                    setCanSave(savedLocations.length < 4); // 允许重新收藏
                 }}
             />
             <Button title="搜索" onPress={searchWeather} />

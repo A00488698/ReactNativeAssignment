@@ -6,7 +6,7 @@ import CurrentWeatherScreen from './current-weather';
 
 export default function HomeScreen() {
   const [loading, setLoading] = useState(true);
-  const [locations, setLocations] = useState<{ id: number; city: string }[]>([]);
+  const [locations, setLocations] = useState<{ id: number; cityName: string; latitude: number; longitude: number }[]>([]);
   const [dbInitialized, setDbInitialized] = useState(false);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function HomeScreen() {
           ) : (
               locations.map((loc) => (
                   <Text key={loc.id} style={styles.locationText}>
-                    {loc.city}
+                    {loc.cityName}
                   </Text>
               ))
           )}

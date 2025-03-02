@@ -25,6 +25,7 @@ export const addLocation = async (cityName: string, latitude: number, longitude:
         'INSERT INTO locations (cityName, latitude, longitude) VALUES (?, ?, ?)',
         [cityName, latitude, longitude]
     );
+    console.log(`✅ 成功添加城市: ${cityName}, 经纬度: ${latitude}, ${longitude}`);
 };
 
 // 4️⃣ **查询所有数据**

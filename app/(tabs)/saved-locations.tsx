@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import { getLocations, removeLocation } from '../database';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+
+
 
 const SavedLocationsScreen: React.FC = () => {
     const [locations, setLocations] = useState<{ id: number, cityName: string, latitude: number, longitude: number }[]>([]);
@@ -15,7 +18,13 @@ const SavedLocationsScreen: React.FC = () => {
         const locations = await getLocations();
         setLocations(locations);
         locations.forEach(loc => fetchWeather(loc.id, loc.cityName));
+        setLocations([...locations]); // ✅ 强制触发 React 重新渲染
     };
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchLocations();
+        }, [])
+    );
 
     const fetchWeather = async (id: number, city: string) => {
         try {
@@ -31,8 +40,7 @@ const SavedLocationsScreen: React.FC = () => {
 
     const handleDelete = async (id: number) => {
         await removeLocation(id);
-        const updatedLocations = await getLocations(); // 重新获取数据库数据
-        setLocations(updatedLocations);
+        await fetchLocations(); // 确保 UI 立即刷新
         Alert.alert("成功", "城市已删除，可继续收藏");
     };
 
