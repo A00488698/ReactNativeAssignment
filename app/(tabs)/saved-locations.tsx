@@ -41,18 +41,18 @@ const SavedLocationsScreen: React.FC = () => {
     const handleDelete = async (id: number) => {
         await removeLocation(id);
         await fetchLocations(); // 确保 UI 立即刷新
-        Alert.alert("成功", "城市已删除，可继续收藏");
+        Alert.alert("Success!", "Successfully deleted location");
     };
 
     return (
         <View style={styles.container}>
             {locations.length === 0 ? (
-                <Text style={styles.emptyText}>暂无收藏的城市</Text>
+                <Text style={styles.emptyText}>No saved location currently</Text>
             ) : (
                 locations.map(loc => (
                     <View key={loc.id} style={styles.item}>
-                        <Text>{loc.cityName} - 温度: {weatherData[loc.id]?.temperature ?? '加载中...'}°C</Text>
-                        <Button title="删除" color="red" onPress={() => handleDelete(loc.id)} />
+                        <Text>{loc.cityName} - Temperature: {weatherData[loc.id]?.temperature ?? 'Loading...'}°C</Text>
+                        <Button title="Delete" color="red" onPress={() => handleDelete(loc.id)} />
                     </View>
                 ))
             )}

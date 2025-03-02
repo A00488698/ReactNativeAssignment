@@ -54,34 +54,34 @@ const SearchWeatherScreen: React.FC = () => {
 
     const saveLocation = async () => {
         if (!weather) {
-            Alert.alert("错误", "请先搜索天气后再收藏");
+            Alert.alert("Fail", "Please Search first!");
             return;
         }
 
         if (savedLocations.length >= 4) {
-            Alert.alert("限制", "已经到达四个，不能收藏");
+            Alert.alert("Full", "Already four location，please delete first.");
             return;
         }
 
         await addLocation(city, weather.latitude, weather.longitude);
         await fetchSavedLocations(); // 立即刷新收藏列表
-        Alert.alert("成功", `${city} 已收藏`);
+        Alert.alert("Success", `${city} Saved`);
     };
 
     return (
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="输入城市名称"
+                placeholder="Insert location"
                 value={city}
                 onChangeText={(text) => {
                     setCity(text);
                     setWeather(null); // 清空之前的天气信息
                 }}
             />
-            <Button title="搜索" onPress={searchWeather} />
-            {weather && <Text style={styles.text}>温度: {weather.temperature}°C</Text>}
-            {weather && <Button title="收藏城市" onPress={saveLocation} disabled={!canSave} />}
+            <Button title="Search" onPress={searchWeather} />
+            {weather && <Text style={styles.text}>Temperature: {weather.temperature}°C</Text>}
+            {weather && <Button title="Saved" onPress={saveLocation} disabled={!canSave} />}
         </View>
     );
 };

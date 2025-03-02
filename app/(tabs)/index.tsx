@@ -51,33 +51,21 @@ export default function HomeScreen() {
 
         {/* 数据库是否成功连接 */}
         <Text style={{ marginTop: 20, fontSize: 16 }}>
-          数据库连接状态: {dbInitialized ? "✅ 连接成功" : "❌ 连接失败"}
+          Database Connection Status: {dbInitialized ? "✅ Connect Successful" : "❌ Connect Fail"}
         </Text>
 
-        {/* 显示已保存的城市 */}
-        <View style={styles.locationsContainer}>
-          {locations.length === 0 ? (
-              <Text style={styles.emptyText}>暂无收藏的城市</Text>
-          ) : (
-              locations.map((loc) => (
-                  <Text key={loc.id} style={styles.locationText}>
-                    {loc.cityName}
-                  </Text>
-              ))
-          )}
-        </View>
 
         {/* 导航按钮 */}
         <View style={styles.buttonContainer}>
           <Link href="/search-weather" asChild>
             <Pressable style={styles.button}>
-              <Text style={styles.buttonText}>搜索城市</Text>
+              <Text style={styles.buttonText}>Search & Display Weather</Text>
             </Pressable>
           </Link>
 
           <Link href="/saved-locations" asChild>
             <Pressable style={styles.button}>
-              <Text style={styles.buttonText}>查看收藏</Text>
+              <Text style={styles.buttonText}>Saved Locations</Text>
             </Pressable>
           </Link>
         </View>

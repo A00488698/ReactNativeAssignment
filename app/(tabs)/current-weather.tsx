@@ -9,9 +9,11 @@ interface WeatherData {
 }
 
 const API_URL = 'https://api.open-meteo.com/v1/forecast';
+const GEOCODE_API_URL = 'https://geocode.maps.co/reverse';
 
 const CurrentWeatherScreen: React.FC = () => {
     const [weather, setWeather] = useState<WeatherData | null>(null);
+    const [locationName, setLocationName] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -24,6 +26,7 @@ const CurrentWeatherScreen: React.FC = () => {
 
             let location = await Location.getCurrentPositionAsync({});
             fetchWeather(location.coords.latitude, location.coords.longitude);
+            fetchLocationName(location.coords.latitude, location.coords.longitude);
         })();
     }, []);
 
@@ -37,10 +40,22 @@ const CurrentWeatherScreen: React.FC = () => {
         }
     };
 
+    const fetchLocationName = async (lat: number, lon: number) => {
+        try {
+            const response = await axios.get(`${GEOCODE_API_URL}?lat=${lat}&lon=${lon}&format=json`);
+            setLocationName(response.data.address.city || response.data.address.town || response.data.address.village || '未知地点');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <View style={styles.container}>
             {loading ? <ActivityIndicator size="large" color="#0000ff" /> : (
-                <Text style={styles.text}>温度: {weather?.temperature}°C</Text>
+                <>
+                    <Text style={styles.text}>Current Location: {locationName}</Text>
+                    <Text style={styles.text}>Temperature: {weather?.temperature}°C</Text>
+                </>
             )}
         </View>
     );
