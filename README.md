@@ -52,6 +52,7 @@ Main Page![Main page](./pic/1.jpg)
 Search Page![Search page1](./pic/3.jpg)
 ![Search page2](./pic/4.jpg)
 Save Page![Save page](./pic/2.jpg)
+Delete location ![Delete](./pic/5.jpg)
 ## Notes
 - The app was tested on iOS.
 - The maximum number of saved cities is **4**.
